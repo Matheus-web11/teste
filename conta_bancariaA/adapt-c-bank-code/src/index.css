@@ -1,0 +1,364 @@
+@import "tailwindcss";
+
+/* IBM Plex, só o subconjunto latino, embutido no HTML final */
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans Condensed";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../node_modules/@fontsource/ibm-plex-sans-condensed/files/ibm-plex-sans-condensed-latin-600-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-600-normal.woff2") format("woff2");
+}
+
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-cond: "IBM Plex Sans Condensed", "IBM Plex Sans", "Arial Narrow", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* mesa: o fundo escuro em volta da folha */
+  --color-mesa: #163828;
+  --color-mesa-2: #1f4a36;
+  --color-claro: #e4efe4;
+  --color-claro-2: #a9c2b0;
+
+  /* folha: papel, faixas verdes e tinta de formulário */
+  --color-papel: #fbfcf8;
+  --color-faixa: #ddeedd;
+  --color-faixa-2: #c4e1c7;
+  --color-forma: #1b6b43;
+  --color-forma-2: #0f4a2d;
+
+  /* tinta do texto "datilografado" */
+  --color-tinta: #14221a;
+  --color-tinta-2: #47584d;
+  --color-tinta-3: #5f6f66;
+
+  /* erro, recusa, atenção */
+  --color-erro: #b3261e;
+  --color-erro-faixa: #f9e0db;
+
+  --color-ocre: #7c4a12;
+  --color-terminal: #10231a;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-top: 4.25rem;
+  }
+  @media (min-width: 64rem) {
+    html {
+      scroll-padding-top: 1.25rem;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+
+  body {
+    background: var(--color-mesa);
+    color: var(--color-tinta);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--color-faixa-2);
+    color: var(--color-tinta);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-forma);
+    outline-offset: 2px;
+  }
+  .sobre-mesa:focus-visible,
+  .sobre-mesa :focus-visible {
+    outline-color: var(--color-faixa);
+  }
+
+  button {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+@layer components {
+  /* legenda impressa do formulário */
+  .rotulo {
+    font-family: var(--font-cond);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: 0.085em;
+    text-transform: uppercase;
+  }
+
+  /* código no meio do texto */
+  .cod {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    font-variant-ligatures: none;
+    background: color-mix(in srgb, var(--color-forma) 9%, transparent);
+    padding: 0.1em 0.32em;
+    border-radius: 2px;
+    overflow-wrap: break-word;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  .elo {
+    color: var(--color-forma-2);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-forma) 45%, transparent);
+    text-underline-offset: 0.2em;
+  }
+  .elo:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* traço duplo de "total", como em livro-caixa */
+  .total {
+    border-bottom: 3px double color-mix(in srgb, var(--color-forma) 60%, transparent);
+  }
+
+  /* número de nota ligado a uma linha da listagem */
+  .marca {
+    display: inline-grid;
+    place-items: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    background: var(--color-forma);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  /* folha de formulário contínuo, com a remalina furada nas bordas */
+  .folha {
+    position: relative;
+    background: var(--color-papel);
+  }
+  @media (min-width: 48rem) {
+    .folha {
+      padding-inline: 2.25rem;
+      box-shadow:
+        0 1px 0 rgb(0 0 0 / 0.25),
+        0 18px 40px -12px rgb(3 14 9 / 0.55);
+    }
+    .folha::before,
+    .folha::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2.25rem;
+      background-image: radial-gradient(circle at center, var(--color-mesa) 0 0.3rem, transparent 0.34rem);
+      background-size: 2.25rem 2rem;
+      background-position: center 0.5rem;
+      background-repeat: repeat-y;
+      pointer-events: none;
+    }
+    .folha::before {
+      left: 0;
+      border-right: 1px dashed color-mix(in srgb, var(--color-forma) 38%, transparent);
+    }
+    .folha::after {
+      right: 0;
+      border-left: 1px dashed color-mix(in srgb, var(--color-forma) 38%, transparent);
+    }
+  }
+
+  /* listagem de código: a faixa verde marca a linha de que o texto fala */
+  .lst {
+    --recuo: 0.5ch;
+    padding-block: 0.625rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    font-variant-ligatures: none;
+  }
+  @media (min-width: 40rem) {
+    .lst {
+      --recuo: 1ch;
+      font-size: 0.875rem;
+    }
+  }
+  /* no celular cada coluna de texto conta: margens e calha mais justas */
+  .lst-linha {
+    display: grid;
+    grid-template-columns: 2ch minmax(0, 1fr);
+    column-gap: 1ch;
+    padding-inline: 0.5rem;
+  }
+  /* a terceira coluna (número da nota) só existe nas linhas que têm nota */
+  .lst-linha[data-marca] {
+    grid-template-columns: 2ch minmax(0, 1fr) auto;
+  }
+  @media (min-width: 40rem) {
+    .lst-linha {
+      column-gap: 1.5ch;
+      padding-inline: 1rem;
+    }
+  }
+  .lst-num {
+    text-align: right;
+    color: var(--color-tinta-3);
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+  }
+  .lst-cod {
+    display: block;
+    min-height: 1.7em;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    /* linha quebrada continua 2 colunas à direita do começo */
+    padding-left: calc(var(--n, 0) * var(--recuo) + 2ch);
+    text-indent: -2ch;
+  }
+  .lst-linha[data-faixa="verde"] {
+    background: var(--color-faixa);
+  }
+  .lst-linha[data-faixa="verde"] .lst-num {
+    color: var(--color-forma-2);
+    font-weight: 600;
+  }
+  .lst-linha[data-faixa="vermelha"] {
+    background: var(--color-erro-faixa);
+  }
+  .lst-linha[data-faixa="vermelha"] .lst-num {
+    color: var(--color-erro);
+    font-weight: 600;
+  }
+  .lst-linha[data-teste] {
+    box-shadow: inset 3px 0 0 var(--color-erro);
+  }
+  .lst-linha[data-clicavel] {
+    cursor: pointer;
+  }
+  @media (hover: hover) {
+    .lst-linha[data-clicavel]:not([data-faixa]):hover {
+      background: color-mix(in srgb, var(--color-faixa) 50%, transparent);
+    }
+  }
+
+  .tk-com {
+    color: var(--color-tinta-3);
+  }
+  /* sobre a faixa o comentário precisa de tinta mais escura para manter o contraste */
+  .lst-linha[data-faixa] .tk-com {
+    color: var(--color-tinta-2);
+  }
+  .tk-str {
+    color: var(--color-ocre);
+  }
+  .tk-pal,
+  .tk-pre {
+    color: var(--color-forma);
+  }
+  .tk-fn {
+    font-weight: 600;
+  }
+
+  /* linha de terminal: comando longo quebra alinhado depois do "$ " */
+  .term-l {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    padding-left: 2ch;
+    text-indent: -2ch;
+  }
+
+  /* índice do roteiro em telas pequenas */
+  dialog.indice {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    width: min(23rem, 88vw);
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    background: var(--color-mesa);
+    color: var(--color-claro);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  dialog.indice::backdrop {
+    background: rgb(6 18 12 / 0.62);
+  }
+}
+
+@keyframes datilografar {
+  from {
+    clip-path: inset(-0.2em 100% -0.2em 0);
+  }
+  to {
+    clip-path: inset(-0.2em 0 -0.2em 0);
+  }
+}
+@keyframes deslizar {
+  from {
+    transform: translateX(-100%);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* o nome do tipo é "impresso" caractere a caractere, uma vez, ao abrir */
+  .datilografar {
+    animation: datilografar 0.9s steps(13, end) 0.2s both;
+  }
+  dialog.indice[open] {
+    animation: deslizar 0.2s ease-out;
+  }
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+  .folha {
+    box-shadow: none;
+    padding-inline: 0;
+  }
+  .folha::before,
+  .folha::after {
+    display: none;
+  }
+}
